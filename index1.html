@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNIVERSE OVERRIDE SYSTEM</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #000;
+      color: #00ff66;
+      font-family: 'Courier New', Courier, monospace;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .overlay {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ff66;
+      box-shadow: 0 0 20px #00ff66;
+      padding: 30px;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    h1 {
+      font-size: 28px;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px #00ff66;
+    }
+    .status {
+      font-size: 18px;
+      color: #ff0055;
+      margin-bottom: 20px;
+      animation: blink 0.8s infinite;
+      font-weight: bold;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .progress-bar {
+      width: 100%;
+      background: #111;
+      border: 1px solid #00ff66;
+      height: 25px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .fill {
+      height: 100%;
+      background: #00ff66;
+      width: 0%;
+      box-shadow: 0 0 15px #00ff66;
+      transition: width 0.1s ease;
+    }
+    .terminal-box {
+      background: #050505;
+      border: 1px dashed #00ff66;
+      height: 120px;
+      padding: 10px;
+      text-align: left;
+      font-size: 13px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      color: #00ff66;
+    }
+    .btn {
+      background: #00ff66;
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff66;
+      font-family: inherit;
+    }
+    .btn:hover {
+      background: #fff;
+      box-shadow: 0 0 20px #fff;
+    }
+    .alarm {
+      animation: alarmFlash 0.2s infinite !important;
+    }
+    @keyframes alarmFlash {
+      0% { background-color: #000; }
+      50% { background-color: #ff0000; }
+      100% { background-color: #000; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="matrix"></canvas>
+
+  <div class="overlay">
+    <h1 id="title">🌌 UNIVERSAL CORE ACCESS</h1>
+    <div class="status" id="status">STATUS: STANDBY</div>
+    
+    <div class="progress-bar">
+      <div class="fill" id="fill"></div>
+    </div>
+
+    <div class="terminal-box" id="log">
+      > SYSTEM INITIALIZED...<br>
+      > READY TO INFILTRATE UNIVERSAL NETWORK...<br>
+    </div>
+
+    <button class="btn" onclick="startHack()">EXECUTE UNIVERSE HACK 🚀</button>
+  </div>
+
+  <script>
+    // Matrix Rain Animation
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ☠⚡🔥🌀';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0f0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 33);
+
+    // Cyber Alarm Sound Synth
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq = 800, duration = 0.1) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    // Hack Sequence logic
+    let hacking = false;
+    function startHack() {
+      if (hacking) return;
+      hacking = true;
+
+      const logs = [
+        "> CONNECTING TO MULTIVERSE SERVERS...",
+        "> BYPASSING QUANTUM FIREWALLS...",
+        "> INJECTING NEURAL MALWARE...",
+        "> OVERRIDING SATELLITE CONTROLS...",
+        "> DOWNLOADING ENTIRE INTERNET DATABASE...",
+        "> ACCESS GRANTED: GOD MODE ACTIVATED ☠"
+      ];
+
+      let progress = 0;
+      let logIndex = 0;
+      const fill = document.getElementById('fill');
+      const logBox = document.getElementById('log');
+      const status = document.getElementById('status');
+
+      status.innerText = "CRITICAL: OVERRIDING REALITY...";
+      status.style.color = "#00ff66";
+
+      const interval = setInterval(() => {
+        progress += 2;
+        fill.style.width = progress + "%";
+        playBeep(400 + progress * 5, 0.05);
+
+        if (progress % 18 === 0 && logIndex < logs.length) {
+          logBox.innerHTML += logs[logIndex] + "<br>";
+          logBox.scrollTop = logBox.scrollHeight;
+          logIndex++;
+        }
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          document.body.classList.add('alarm');
+          status.innerText = "⚠️ UNIVERSE CONTROLLED BY XTREMEHORAA ⚠️";
+          status.style.color = "#fff";
+          document.getElementById('title').innerText = "SYSTEM TAKEOVER COMPLETE";
+          
+          setInterval(() => playBeep(900, 0.2), 300);
+        }
+      }, 80);
+    }
+  </script>
+
+</body>
+</html>
